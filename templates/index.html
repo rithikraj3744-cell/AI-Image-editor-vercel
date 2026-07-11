@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Image Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <span class="brand"><span class="dot"></span> AI Image Editor</span>
+    <span class="mono" style="color:var(--text-muted); font-size:0.8rem;">local · no login required</span>
+  </div>
+</nav>
+
+<main class="dash-shell">
+  <div class="wrap">
+    <h1 style="font-size:2rem; margin-bottom:6px;">Upload. Edit. Download.</h1>
+    <p style="margin-bottom:30px;">OpenCV filters running through Flask — history is saved in your browser's local storage, no account or server database needed.</p>
+
+    <div class="dash-grid">
+      <div class="panel">
+        <h3>Upload image</h3>
+        <div id="dropzone" class="dropzone">
+          <div class="icon">↑</div>
+          <p><strong>Drag &amp; drop</strong> or click to choose a file</p>
+          <input type="file" id="file-input" accept="image/*">
+        </div>
+
+        <h3 style="margin-top:28px;">Select filter</h3>
+        <div class="filter-list">
+          <label class="filter-option selected"><input type="radio" name="filter" value="grayscale" checked> Grayscale</label>
+          <label class="filter-option"><input type="radio" name="filter" value="sketch"> Sketch</label>
+          <label class="filter-option"><input type="radio" name="filter" value="cartoon"> Cartoon</label>
+          <label class="filter-option"><input type="radio" name="filter" value="blur"> Blur</label>
+          <label class="filter-option"><input type="radio" name="filter" value="edge"> Edge detection</label>
+          <label class="filter-option"><input type="radio" name="filter" value="sharpen"> Sharpen</label>
+          <label class="filter-option"><input type="radio" name="filter" value="rotate"> Rotate</label>
+          <label class="filter-option"><input type="radio" name="filter" value="flip"> Flip</label>
+        </div>
+
+        <div class="slider-field">
+          <label><span>Brightness</span><span class="mono" id="brightness-val">0</span></label>
+          <input type="range" id="brightness-slider" min="-100" max="100" value="0">
+        </div>
+        <div class="slider-field">
+          <label><span>Contrast</span><span class="mono" id="contrast-val">0</span></label>
+          <input type="range" id="contrast-slider" min="-100" max="100" value="0">
+        </div>
+
+        <button id="apply-btn" class="btn btn-primary btn-block" disabled>Apply</button>
+      </div>
+
+      <div>
+        <div class="preview-boxes">
+          <div class="filmstrip-frame" id="preview-box">
+            <div class="frame-inner">
+              <span class="frame-label">Original</span>
+              <p class="preview-placeholder">Upload an image to preview it here</p>
+            </div>
+          </div>
+          <div class="filmstrip-frame" id="result-box">
+            <div class="frame-inner">
+              <span class="frame-label">Result</span>
+              <p class="preview-placeholder">Your edited image will appear here</p>
+            </div>
+          </div>
+        </div>
+        <div class="stage-actions">
+          <button id="download-btn" class="btn" disabled>Download result</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-section">
+      <h3>History</h3>
+      <div class="history-grid" id="history-grid"></div>
+      <div class="empty-state" id="history-empty" style="display:none; text-align:center; padding:40px; border:1px dashed var(--border); border-radius:3px;">
+        <p style="margin:0;">No edits yet — apply a filter above and it'll show up here.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast-stack" class="toast-stack"></div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
